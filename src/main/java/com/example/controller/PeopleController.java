@@ -22,7 +22,7 @@ public class PeopleController {
 
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("people", userService.viewUsers());
+        model.addAttribute("people", userService.findAll());
         return "/users/index";
     }
 
@@ -35,7 +35,7 @@ public class PeopleController {
     @PostMapping("/users/add")
     public String addUser(@ModelAttribute("user") User user, Model model) {
         try {
-            userService.saveUser(user);
+            userService.save(user);
             return "redirect:/";
         } catch (RuntimeException e) {
             model.addAttribute("error", "Ошибка при добавлении пользователя");
@@ -45,13 +45,13 @@ public class PeopleController {
 
     @PostMapping("/delete")
     public String deleteUser(@RequestParam("id") Long id) {
-        userService.deleteUser(id);
+        userService.delete(id);
         return "redirect:/";
     }
 
     @GetMapping("/users/edit")
     public String showEditUserForm(@RequestParam Long id, Model model) {
-        User user = userService.findUser(id);
+        User user = userService.findOne(id);
         if (user != null) {
             model.addAttribute("user", user);
             return "/users/edit";
@@ -60,9 +60,9 @@ public class PeopleController {
     }
 
     @PostMapping("/users/edit")
-    public String editUser(@ModelAttribute User user) {
+    public String editUser(@ModelAttribute User user, @RequestParam Long id) {
         try {
-            userService.editUser(user);
+            userService.update(id,user);
         } catch (RuntimeException e) {
 
             return "/users/edit";
