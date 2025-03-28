@@ -1,11 +1,8 @@
 package com.example.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.DecimalMin;
+import javax.persistence.*;
 import javax.validation.constraints.Min;
+import java.util.Objects;
 
 @Entity
 public class User {
@@ -14,12 +11,15 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, name = "name")
     private String name;
 
-    @Min(value = 0, message = "Возраст не может быть отрицательным")
+    @Column(nullable = false, name = "age")
+    @Min(value = 0)
     private int age;
 
-    @Min(value = 0, message = "Зарплата не может быть отрицательной")
+    @Column(nullable = false, name = "salary")
+    @Min(value = 0)
     private double salary;
 
     public Long getId() {
@@ -62,5 +62,17 @@ public class User {
         return "User{" +
                 "name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return age == user.age && Double.compare(salary, user.salary) == 0 && Objects.equals(id, user.id) && Objects.equals(name, user.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, age, salary);
     }
 }
