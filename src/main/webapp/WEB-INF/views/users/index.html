@@ -80,7 +80,7 @@
         <td th:text="${person.age}"></td>
         <td th:text="${person.salary}"></td>
         <td>
-            <form th:action="@{delete}" method="post" style="display:inline;">
+            <form th:action="@{/users/delete}" method="post" style="display:inline;">
                 <input type="hidden" name="id" th:value="${person.id}">
                 <button type="submit" class="btn btn-red" onclick="return confirm('Удалить пользователя?')">Удалить</button>
             </form>

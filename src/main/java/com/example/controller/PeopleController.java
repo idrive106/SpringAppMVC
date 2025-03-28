@@ -20,13 +20,13 @@ public class PeopleController {
         this.userService = userService;
     }
 
-    @GetMapping("/")
+    @GetMapping("/users")
     public String index(Model model) {
         model.addAttribute("people", userService.findAll());
         return "/users/index";
     }
 
-    @GetMapping("/add")
+    @GetMapping("/users/add")
     public String showAddUserForm(Model model) {
         model.addAttribute("user", new User());
         return "/users/add";
@@ -36,17 +36,17 @@ public class PeopleController {
     public String addUser(@ModelAttribute("user") User user, Model model) {
         try {
             userService.save(user);
-            return "redirect:/";
+            return "redirect:/users";
         } catch (RuntimeException e) {
             model.addAttribute("error", "Ошибка при добавлении пользователя");
             return "/users/add";
         }
     }
 
-    @PostMapping("/delete")
+    @PostMapping("/users/delete")
     public String deleteUser(@RequestParam("id") Long id) {
         userService.delete(id);
-        return "redirect:/";
+        return "redirect:/users";
     }
 
     @GetMapping("/users/edit")
@@ -56,7 +56,7 @@ public class PeopleController {
             model.addAttribute("user", user);
             return "/users/edit";
         }
-        return "redirect:/";
+        return "redirect:/users";
     }
 
     @PostMapping("/users/edit")
@@ -67,6 +67,6 @@ public class PeopleController {
 
             return "/users/edit";
         }
-        return "redirect:/";
+        return "redirect:/users";
     }
 }
