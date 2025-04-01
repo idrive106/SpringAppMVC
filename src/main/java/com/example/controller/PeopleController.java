@@ -51,7 +51,7 @@ public class PeopleController {
 
     @GetMapping("/users/edit")
     public String showEditUserForm(@RequestParam Long id, Model model) {
-        User user = userService.findOne(id);
+        User user = userService.findById(id);
         if (user != null) {
             model.addAttribute("user", user);
             return "/users/edit";
